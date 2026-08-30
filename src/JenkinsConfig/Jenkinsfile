@@ -1,0 +1,94 @@
+// 投资决策支持系统 - Jenkins 流水线
+// 部署路径: /opt/InvestDecisionSupportSystem（Linux 服务器 192.168.0.111）
+pipeline {
+    agent any
+
+    triggers {
+        // 每 30 分钟轮询 GitHub 是否有新提交，有提交则触发部署
+        pollSCM('H/30 * * * *')
+    }
+
+    environment {
+        DEPLOY_DIR = '/opt/InvestDecisionSupportSystem'
+        SRC_DIR = "${DEPLOY_DIR}/src"
+    }
+
+    options {
+        timestamps()
+        skipStagesAfterUnstable()
+    }
+
+    stages {
+        stage('停止服务') {
+            steps {
+                echo '停止当前运行的服务...'
+                sh '''
+                    if [ -f "$SRC_DIR/logs/server.pid" ] && [ -x "$SRC_DIR/stop.sh" ]; then
+                        bash "$SRC_DIR/stop.sh" || true
+                    fi
+                    # 若以 systemd 方式运行，同时停止 systemd 服务
+                    systemctl stop invest-dss.service 2>/dev/null || true
+                '''
+            }
+        }
+
+        stage('更新代码') {
+            steps {
+                echo '同步最新代码到部署路径（保留 data/logs/config/app.json/.venv）...'
+                sh '''
+                    mkdir -p "$DEPLOY_DIR"
+                    rsync -a --delete \
+                        --exclude "src/data/" \
+                        --exclude "src/logs/" \
+                        --exclude "src/config/app.json" \
+                        --exclude ".venv/" \
+                        --exclude "node_modules/" \
+                        --exclude ".git/" \
+                        "$WORKSPACE/" "$DEPLOY_DIR/"
+                '''
+            }
+        }
+
+        stage('安装依赖') {
+            steps {
+                echo '准备 Python 虚拟环境与依赖...'
+                sh '''
+                    cd "$SRC_DIR"
+                    if [ ! -x ".venv/bin/python" ]; then
+                        python3 -m venv .venv
+                    fi
+                    .venv/bin/pip install --quiet -r requirements.txt
+                '''
+            }
+        }
+
+        stage('运行测试') {
+            steps {
+                echo '运行单元测试与冒烟测试（独立临时目录，不影响生产数据）...'
+                sh '''
+                    cd "$SRC_DIR"
+                    .venv/bin/python -m pytest tests -q
+                '''
+            }
+        }
+
+        stage('启动服务') {
+            steps {
+                echo '启动服务...'
+                sh '''
+                    bash "$SRC_DIR/start.sh"
+                    bash "$SRC_DIR/status.sh"
+                '''
+            }
+        }
+    }
+
+    post {
+        failure {
+            echo '部署失败！请检查 Jenkins 控制台日志。'
+        }
+        success {
+            echo '部署成功，服务已更新并运行。'
+        }
+    }
+}

@@ -1,0 +1,26 @@
+# 投资决策支持系统 - systemd 服务单元
+# 安装方法（在 192.168.0.111 上执行）:
+#   sudo cp src/JenkinsConfig/invest-dss.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now invest-dss.service
+# 状态检查:
+#   systemctl status invest-dss.service
+
+[Unit]
+Description=InvestDecisionSupportSystem (投资决策支持系统)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=yuanxin
+Group=yuanxin
+WorkingDirectory=/opt/InvestDecisionSupportSystem/src
+ExecStart=/opt/InvestDecisionSupportSystem/src/.venv/bin/python -m app.backend.main
+Restart=on-failure
+RestartSec=5
+StandardOutput=append:/opt/InvestDecisionSupportSystem/src/logs/startup.log
+StandardError=append:/opt/InvestDecisionSupportSystem/src/logs/startup.err.log
+
+[Install]
+WantedBy=multi-user.target

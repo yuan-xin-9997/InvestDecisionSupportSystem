@@ -216,3 +216,20 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ==== InvestDecisionSupportSystem ====
+# 日志目录（按要求必须忽略）
+logs/
+# Python 虚拟环境与测试缓存
+.venv/
+.pytest_cache/
+# 前端依赖
+node_modules/
+# 运行时数据文件（data 目录本身保持被跟踪，password.txt 随仓库分发）
+src/data/app.sqlite3
+src/data/app.sqlite3-wal
+src/data/app.sqlite3-shm
+src/data/journal/
+# 前端构建产物需要随仓库分发（部署机无需 Node 环境构建）
+!src/app/frontend/dist/
+!src/app/frontend/dist/**
