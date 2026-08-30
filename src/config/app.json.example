@@ -1,0 +1,36 @@
+{
+  "app": {
+    "name": "投资决策支持系统",
+    "version_desc": "版本号取自 GitHub 提交数量，可在启动时自动读取"
+  },
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8620
+  },
+  "database": {
+    "sqlite_file": "data/app.sqlite3"
+  },
+  "postgres": {
+    "host": "192.168.0.100",
+    "port": 15432,
+    "user": "vnpy",
+    "password": "123456",
+    "dbname": "vnpy",
+    "connect_timeout": 10,
+    "query_limit_max": 5000
+  },
+  "auth": {
+    "token_expire_days": 7,
+    "session_cookie": false
+  },
+  "log": {
+    "level": "INFO",
+    "dir": "logs",
+    "retention_days": 30
+  },
+  "upload": {
+    "journal_dir": "data/journal",
+    "max_image_mb": 10,
+    "max_long_edge": 2000
+  }
+}

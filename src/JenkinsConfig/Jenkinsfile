@@ -50,6 +50,21 @@ pipeline {
             }
         }
 
+        stage('初始化配置') {
+            steps {
+                echo '首次部署引导生成主配置（已存在则保留本地修改，不覆盖）...'
+                sh '''
+                    cd "$SRC_DIR"
+                    if [ ! -f "config/app.json" ] && [ -f "config/app.json.example" ]; then
+                        cp config/app.json.example config/app.json
+                        echo "已从 app.json.example 生成 config/app.json"
+                    else
+                        echo "config/app.json 已存在，保留现有配置"
+                    fi
+                '''
+            }
+        }
+
         stage('安装依赖') {
             steps {
                 echo '准备 Python 虚拟环境与依赖...'

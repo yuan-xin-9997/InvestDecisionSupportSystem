@@ -61,7 +61,7 @@
 | `log.level/dir/retention_days` | 日志级别、目录与历史日志保留天数 |
 | `upload.journal_dir/max_image_mb/max_long_edge` | 日志图片目录、单图大小上限、长边压缩阈值 |
 
-> 注意：所有环境信息（IP、端口、密码等）只出现在配置文件中，代码不硬编码；部署时**不要覆盖** `config/app.json`（Jenkins 流水线已做排除处理）。
+> 注意：所有环境信息（IP、端口、密码等）只出现在配置文件中，代码不硬编码。仓库同时提供 `config/app.json.example` 模板：**首次部署**时由 Jenkins 流水线（或手工复制）引导生成 `app.json`，**后续部署不会覆盖**已存在的 `app.json`（本地化修改得到保留）。
 
 ## 部署方式
 
