@@ -45,7 +45,6 @@ pipeline {
                         --exclude "src/config/app.json" \
                         --exclude ".venv/" \
                         --exclude "node_modules/" \
-                        --exclude ".git/" \
                         "$WORKSPACE/" "$DEPLOY_DIR/"
                 '''
             }
@@ -78,7 +77,8 @@ pipeline {
             steps {
                 echo '启动服务...'
                 sh '''
-                    bash "$SRC_DIR/start.sh"
+                    # JENKINS_NODE_COOKIE 防止 Jenkins 构建结束后回收服务进程
+                    JENKINS_NODE_COOKIE=dontKillMe bash "$SRC_DIR/start.sh"
                     bash "$SRC_DIR/status.sh"
                 '''
             }
