@@ -13,8 +13,8 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=yuanxin
-Group=yuanxin
+User=jenkins
+Group=jenkins
 WorkingDirectory=/opt/InvestDecisionSupportSystem/src
 ExecStart=/opt/InvestDecisionSupportSystem/src/.venv/bin/python -m app.backend.main
 Restart=on-failure
