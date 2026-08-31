@@ -22,7 +22,7 @@ class TestEnv:
         (root / "data").mkdir(parents=True, exist_ok=True)
         (root / "logs").mkdir(parents=True, exist_ok=True)
         (root / "config" / "app.json").write_text(json.dumps({
-            "server": {"host": "127.0.0.1", "port": 8620},
+            "server": {"host": "127.0.0.1", "port": 32080},
             "database": {"sqlite_file": "data/app.sqlite3"},
             "postgres": {"host": "127.0.0.1", "port": 1, "user": "x", "password": "x",
                          "dbname": "x", "connect_timeout": 1, "query_limit_max": 100},

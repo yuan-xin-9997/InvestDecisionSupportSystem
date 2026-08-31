@@ -23,7 +23,7 @@
 
 ## 页面介绍
 
-访问 `http://<服务器IP>:8620`（端口可在 `src/config/app.json` 配置），默认账号 `admin / admin123`（首次登录后请在 password.txt 中修改）。
+访问 `http://<服务器IP>:32080`（端口可在 `src/config/app.json` 配置），默认账号 `admin / admin123`（首次登录后请在 password.txt 中修改）。
 
 - `/login` 登录页
 - `/` 系统概览：统计卡片、系统信息、行情库状态
@@ -54,7 +54,7 @@
 
 | 配置项 | 说明 |
 | ------ | ---- |
-| `server.host/port` | 服务监听地址与端口（默认 0.0.0.0:8620） |
+| `server.host/port` | 服务监听地址与端口（默认 0.0.0.0:32080） |
 | `database.sqlite_file` | 本地 SQLite 文件路径（相对 src 目录） |
 | `postgres.*` | 行情数据库连接（host/port/user/password/dbname/connect_timeout/query_limit_max），对应 vnpy 库的 `dbbardata`/`dbbaroverview`/`dbtickoverview` |
 | `auth.token_expire_days` | 登录 token 有效天数（默认 7） |
@@ -98,7 +98,7 @@ powershell -File src\stop.ps1     # 停止
 ```bash
 cd src/app/frontend
 npm install
-npm run dev        # Vite 开发服务器（5173），API 代理到 127.0.0.1:8620
+npm run dev        # Vite 开发服务器（5173），API 代理到 127.0.0.1:32080
 npm run build      # 构建产物输出到 dist/（由 FastAPI 托管）
 ```
 
@@ -119,5 +119,5 @@ cd src
 
 ## 访问方式
 
-- 本机：http://127.0.0.1:8620
-- 局域网：http://<部署机IP>:8620
+- 本机：http://127.0.0.1:32080
+- 局域网：http://<部署机IP>:32080

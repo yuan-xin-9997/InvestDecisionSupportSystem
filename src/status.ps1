@@ -19,8 +19,8 @@ if (Test-Path $pidFile) {
 $venvPython = Join-Path $srcDir ".venv\Scripts\python.exe"
 try {
     $port = & $venvPython -c "import json;print(json.load(open('config/app.json'))['server']['port'])"
-} catch { $port = 8620 }
-if (-not $port) { $port = 8620 }
+} catch { $port = 32080 }
+if (-not $port) { $port = 32080 }
 
 try {
     $health = Invoke-RestMethod -Uri "http://127.0.0.1:${port}/api/health" -TimeoutSec 3

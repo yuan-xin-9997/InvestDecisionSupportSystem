@@ -14,7 +14,7 @@ SENSITIVE_KEYS = {"password"}
 
 DEFAULT_CONFIG: dict[str, Any] = {
     "app": {"name": "投资决策支持系统"},
-    "server": {"host": "0.0.0.0", "port": 8620},
+    "server": {"host": "0.0.0.0", "port": 32080},
     "database": {"sqlite_file": "data/app.sqlite3"},
     "postgres": {
         "host": "127.0.0.1",

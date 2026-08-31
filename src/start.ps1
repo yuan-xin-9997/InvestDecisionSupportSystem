@@ -56,8 +56,8 @@ Set-Content -Path $pidFile -Value $proc.Id
 # 5. 健康检查
 try {
     $port = (& $venvPython -c "import json;print(json.load(open('config/app.json'))['server']['port'])") 2>$null
-} catch { $port = 8620 }
-if (-not $port) { $port = 8620 }
+} catch { $port = 32080 }
+if (-not $port) { $port = 32080 }
 
 for ($i = 0; $i -lt 15; $i++) {
     Start-Sleep -Seconds 1

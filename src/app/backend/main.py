@@ -77,6 +77,6 @@ if __name__ == "__main__":
     uvicorn.run(
         "app.backend.main:app",
         host=str(cfg.get("server.host", "0.0.0.0")),
-        port=int(cfg.get("server.port", 8620)),
+        port=int(cfg.get("server.port", 32080)),
         log_level="info",
     )

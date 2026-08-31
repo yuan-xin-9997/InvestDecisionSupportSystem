@@ -43,7 +43,7 @@ nohup "$VENV/bin/python" -m app.backend.main >> "$LOG_DIR/startup.log" 2>&1 &
 echo $! > "$PID_FILE"
 
 # 5. 健康检查
-PORT=$("$VENV/bin/python" -c "import json;print(json.load(open('config/app.json'))['server']['port'])" 2>/dev/null || echo 8620)
+PORT=$("$VENV/bin/python" -c "import json;print(json.load(open('config/app.json'))['server']['port'])" 2>/dev/null || echo 32080)
 for i in $(seq 1 15); do
     sleep 1
     if curl -sf "http://127.0.0.1:${PORT}/api/health" >/dev/null 2>&1; then
